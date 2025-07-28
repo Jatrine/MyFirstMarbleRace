@@ -1,0 +1,6 @@
+build spawning cells: draw png images + customized surface collider
+bounciness: change the setting in Physics Material 2D, and then assign it to an object
+velocity threshold: change the setting in Project Settings -> Physics, to avoid the ignorance of small relative velocity (e.g., when the marble slightly slip by the obstacle)
+coroutine: one of the most important knowledge that is missing, can be used to set a short pause between spawning marbles, as well as continuous firing
+delegate/event（监听？广播？事件？委托？）: another missing basic knowledge, can be used in triggering actions like fire
+The two points above are so essential that I have to stop coding and study them well before continuing with the project. I was too lazy in my previous projects that I kept postpone learning those basic c# concepts. I used to set up timers and flags in Update() to control cross-frame actions, and check variable in every frame to trigger an event. In academic projects, cost and efficiency is never the priority of a prototype, all we need is to make the program functional at least during the user study. I know there is such thing that every c# programmer should know, and I do feel something is missing to make my project look smart and organized, but I was just lazy to dive into it. It's a shame that I've been working with Unity for so long but never became a real c# programmer :(

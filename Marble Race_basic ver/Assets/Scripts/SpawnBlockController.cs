@@ -7,19 +7,20 @@ using UnityEngine;
 public class SpawnBlockController : MonoBehaviour
 {
     [SerializeField]
-    private int marbleNumber = 5;
+    private int initialMarbles = 3;
+    public int ExistingMarbles = 0;
     public Color MarbleColor;
 
     private string prefabPath = "Assets/Prefabs/Marble.prefab";
     private GameObject prefab;
     private Vector2 spawnPosition;
-    private float spawnForce = 0.5f;
+    public float spawnSpeed = 1f;
 
     private void Start()
     {
         spawnPosition = transform.Find("Spawn Point").position;
         prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        StartCoroutine(SpawnMarbles(marbleNumber));
+        StartCoroutine(SpawnMarbles(initialMarbles));
     }
 
     public IEnumerator SpawnMarbles(int num)
@@ -31,13 +32,20 @@ public class SpawnBlockController : MonoBehaviour
             GameObject marble = Instantiate(prefab, spawnPosition, Quaternion.identity);
             marble.transform.SetParent(transform, true);
             marble.transform.GetComponent<MarbleRespawn>().spawnPosition = spawnPosition;
-            float randomAngle = Random.Range(-180f, 0f);
-            Vector2 forceDirection = new Vector2(
-                Mathf.Cos(randomAngle * Mathf.Deg2Rad),
-                Mathf.Sin(randomAngle * Mathf.Deg2Rad)
-            ).normalized;
+            ExistingMarbles++;
 
-            marble.GetComponent<Rigidbody2D>().AddForce(forceDirection * spawnForce, ForceMode2D.Impulse);
+            InitiliazeMarbleSpeed(marble);
         }
+    }
+
+    public void InitiliazeMarbleSpeed(GameObject marble)
+    {
+        float randomAngle = Random.Range(-180f, 0f);
+        Vector2 forceDirection = new Vector2(
+            Mathf.Cos(randomAngle * Mathf.Deg2Rad),
+            Mathf.Sin(randomAngle * Mathf.Deg2Rad)
+        ).normalized;
+
+        marble.GetComponent<Rigidbody2D>().velocity = forceDirection * spawnSpeed;
     }
 }

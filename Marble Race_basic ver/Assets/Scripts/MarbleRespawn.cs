@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MarbleRespawn : MonoBehaviour
 {
+    private SpawnBlockController block;
     public Vector2 spawnPosition;
-    private float spawnForce = 0.5f;
 
     private void Start()
     {
-
+        block = transform.parent.GetComponent<SpawnBlockController>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -20,19 +20,13 @@ public class MarbleRespawn : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
             transform.position = spawnPosition;
-            
-            float randomAngle = Random.Range(-180f, 0f);
-            Vector2 forceDirection = new Vector2(
-                Mathf.Cos(randomAngle * Mathf.Deg2Rad),
-                Mathf.Sin(randomAngle * Mathf.Deg2Rad)
-            ).normalized;
 
-            transform.GetComponent<Rigidbody2D>().AddForce(forceDirection * spawnForce, ForceMode2D.Impulse);
+            block.InitiliazeMarbleSpeed(gameObject);
         }
 
         if (collision.gameObject.name == "Duplicate")
         {
-            StartCoroutine(transform.parent.GetComponent<SpawnBlockController>().SpawnMarbles(1));
+            StartCoroutine(block.SpawnMarbles(1));
         }
     }
 }
